@@ -50,6 +50,7 @@ public class CacheConfiguration {
             createCache(cm, co.com.nexos.prueba.domain.User.class.getName() + ".authorities");
             createCache(cm, co.com.nexos.prueba.domain.PersistentToken.class.getName());
             createCache(cm, co.com.nexos.prueba.domain.User.class.getName() + ".persistentTokens");
+            createCache(cm, co.com.nexos.prueba.domain.Producto.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

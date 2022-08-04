@@ -1,0 +1,104 @@
+<div>
+  <h2 id="page-heading" data-cy="ProductoHeading">
+    <span jhiTranslate="pruebaApp.producto.home.title">Productos</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="pruebaApp.producto.home.refreshListLabel">Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-producto"
+        [routerLink]="['/producto/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="pruebaApp.producto.home.createLabel"> Crear nuevo Producto </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="productos?.length === 0">
+    <span jhiTranslate="pruebaApp.producto.home.notFound">Ningún Productos encontrado</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="productos && productos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="nombre">
+            <span jhiTranslate="pruebaApp.producto.nombre">Nombre</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="cantidad">
+            <span jhiTranslate="pruebaApp.producto.cantidad">Cantidad</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="fechaIngreso">
+            <span jhiTranslate="pruebaApp.producto.fechaIngreso">Fecha Ingreso</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="fechaCreacion">
+            <span jhiTranslate="pruebaApp.producto.fechaCreacion">Fecha Creacion</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="fechaModificacion">
+            <span jhiTranslate="pruebaApp.producto.fechaModificacion">Fecha Modificacion</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="usuarioCreacion">
+            <span jhiTranslate="pruebaApp.producto.usuarioCreacion">Usuario Creacion</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="usuarioModificacion">
+            <span jhiTranslate="pruebaApp.producto.usuarioModificacion">Usuario Modificacion</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/producto', producto.id, 'view']">{{ producto.id }}</a>
+          </td>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.cantidad }}</td>
+          <td>{{ producto.fechaIngreso | formatMediumDatetime }}</td>
+          <td>{{ producto.fechaCreacion | formatMediumDatetime }}</td>
+          <td>{{ producto.fechaModificacion | formatMediumDatetime }}</td>
+          <td>{{ producto.usuarioCreacion }}</td>
+          <td>{{ producto.usuarioModificacion }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/producto', producto.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Vista</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/producto', producto.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(producto)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
