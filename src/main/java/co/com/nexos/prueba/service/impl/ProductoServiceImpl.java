@@ -5,6 +5,8 @@ import co.com.nexos.prueba.repository.ProductoRepository;
 import co.com.nexos.prueba.service.ProductoService;
 import co.com.nexos.prueba.service.dto.ProductoDTO;
 import co.com.nexos.prueba.service.mapper.ProductoMapper;
+
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -36,16 +38,23 @@ public class ProductoServiceImpl implements ProductoService {
     public ProductoDTO save(ProductoDTO productoDTO) {
         log.debug("Request to save Producto : {}", productoDTO);
         Producto producto = productoMapper.toEntity(productoDTO);
+        producto.setFechaCreacion(Instant.now());
         producto = productoRepository.save(producto);
         return productoMapper.toDto(producto);
     }
 
     @Override
+    public Integer validateProductName(String name) {
+        return productoRepository.countProductForName(name);
+    }
+    @Override
     public ProductoDTO update(ProductoDTO productoDTO) {
         log.debug("Request to save Producto : {}", productoDTO);
         Producto producto = productoMapper.toEntity(productoDTO);
+        producto.setFechaModificacion(Instant.now());
         producto = productoRepository.save(producto);
         return productoMapper.toDto(producto);
+        
     }
 
     @Override

@@ -9,6 +9,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import javax.websocket.server.PathParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -139,6 +142,11 @@ public class ProductoResource {
     public List<ProductoDTO> getAllProductos() {
         log.debug("REST request to get all Productos");
         return productoService.findAll();
+    }
+
+    @GetMapping("/validateProdcuto/{nombre}")
+    public Integer getProductoCount(@PathVariable String nombre) {
+        return productoService.validateProductName(nombre);
     }
 
     /**

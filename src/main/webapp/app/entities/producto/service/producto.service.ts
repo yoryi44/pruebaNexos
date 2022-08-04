@@ -25,10 +25,12 @@ export type PartialUpdateRestProducto = RestOf<PartialUpdateProducto>;
 
 export type EntityResponseType = HttpResponse<IProducto>;
 export type EntityArrayResponseType = HttpResponse<IProducto[]>;
+export type IntegerType = HttpResponse<number>;
 
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/productos');
+  protected resourceUrlvalidateProdcuto = this.applicationConfigService.getEndpointFor('api/validateProdcuto');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -64,6 +66,11 @@ export class ProductoService {
     return this.http
       .get<RestProducto[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
+
+  validateName(nombre: String): Observable<IntegerType> {
+    return this.http.get<number>(`${this.resourceUrlvalidateProdcuto}/${nombre}`, { observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

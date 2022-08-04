@@ -1,12 +1,14 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <form name="editForm" role="form" novalidate (ngSubmit)="validarNombreProducto()" [formGroup]="editForm">
       <h2 id="jhi-producto-heading" data-cy="ProductoCreateUpdateHeading" jhiTranslate="pruebaApp.producto.home.createOrEditLabel">
         Crear o editar Producto
       </h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
 
         <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
